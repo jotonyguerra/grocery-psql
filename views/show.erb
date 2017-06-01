@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Groceries</title>
+  <link href="/app.css" rel="stylesheet" media="all">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<style>
+table, td, th {border: 1px solid black;}
+table {border-collapse: collapse;table-layout: fixed;width: 100%;}
+th {color: green;}
+th, td {
+    padding: 15px;
+    text-align: left;
+    margin-right: -1px;
+  }
+</style>
+
+<body>
+  <% if @items %>
+  <% @items.each do |item| %>
+  <table class="w3-table w3-striped w3-bordered">
+  <tr>
+    <th>Grocery</th>
+  </tr>
+    <td><a href='groceries/<%= item["name"] %>'><%=item["name"]%></a> </td>
+  </table>
+  <table class="w3-table w3-striped w3-bordered">
+    <tr>
+      <th>Comments</th>
+    </tr>
+    <td><%= item["body"] %><td>
+    </table>
+    <%end%>
+  <%end%>
+
+</body>
+
+</html>
