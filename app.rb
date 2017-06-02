@@ -40,9 +40,17 @@ get '/groceries/:id' do
   @id = params[:id]
   @name = params[:name]
   @comment = params[:body]
-  @items = db_connection do |conn|
+  @groceries =  db_connection do |conn|
     conn.exec_params("SELECT name, groceries.id AS id, comments.body FROM groceries
     LEFT OUTER JOIN comments ON groceries.id = comments.id")
+  end
+  @groceries.to_a
+#somehow grab its primary key,
+  @g_id = @groceries.find { |item| item["id"] == params["id"] }
+  @items = db_connection do |conn|
+    conn.exec_params("SELECT name, groceries.id, comments.body FROM groceries
+    FULL OUTER JOIN comments ON groceries.id = comments.grocery_id
+    ")
   end
   erb :show
 end
@@ -50,7 +58,7 @@ end
 post "/groceries" do
   @id = params[:id]
   @name = params[:name]
-  @comment = params[:body]
+  @comment = params[:body] #why is it nil
   if @name == ""
     redirect "/groceries"
   elsif @comment == ""
@@ -61,7 +69,9 @@ post "/groceries" do
   else
     db_connection do |conn|
       conn.exec_params("INSERT INTO groceries (name) VALUES ($1)", [@name])
-      conn.exec_params("INSERT INTO comments (body) VALUES ($1)", [@comment])
+    end
+    db_connection do |conn|
+      conn.exec_params("INSERT INTO comments (body,grocery_id) VALUES ($1,$2)", [@comment,@g_id])
     end
     redirect "/groceries"
   end

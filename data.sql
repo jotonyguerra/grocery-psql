@@ -1,5 +1,2 @@
 INSERT INTO groceries (name) VALUES ('taco');
-INSERT INTO comments (body) VALUES  ('Are the best');
-
-INSERT INTO groceries (name) VALUES ('eggs');
-INSERT INTO comments (body) VALUES  ('Are the best scrambled or hard boiled');
+INSERT INTO comments (body, grocery_id) VALUES  ('Are the best',  (SELECT id from groceries WHERE name = 'taco'));

@@ -18,13 +18,14 @@ th, td {
 </style>
 
 <body>
-  <% if @items %>
+
   <% @items.each do |item| %>
+  <%if item["id"] == @g_id["id"]%>
   <table class="w3-table w3-striped w3-bordered">
   <tr>
     <th>Grocery</th>
   </tr>
-    <td><a href='groceries/<%= item["name"] %>'><%=item["name"]%></a> </td>
+    <td><a href='/groceries'><%=item["name"]%></a> </td>
   </table>
   <table class="w3-table w3-striped w3-bordered">
     <tr>
@@ -33,7 +34,7 @@ th, td {
     <td><%= item["body"] %><td>
     </table>
     <%end%>
-  <%end%>
+    <%end%>
 
 </body>
 
